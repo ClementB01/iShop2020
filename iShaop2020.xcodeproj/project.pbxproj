@@ -15,6 +15,7 @@
 		08962F592418E065007B13CA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08962F572418E065007B13CA /* LaunchScreen.storyboard */; };
 		08962F612418EF4A007B13CA /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08962F602418EF4A007B13CA /* CoreDataManager.swift */; };
 		08962F672418F7B7007B13CA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08962F662418F7B7007B13CA /* Main.storyboard */; };
+		08962F6924193E21007B13CA /* FiltersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08962F6824193E21007B13CA /* FiltersViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		08962F5A2418E065007B13CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		08962F602418EF4A007B13CA /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		08962F662418F7B7007B13CA /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = ../../../Main.storyboard; sourceTree = "<group>"; };
+		08962F6824193E21007B13CA /* FiltersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +71,7 @@
 				08962F5A2418E065007B13CA /* Info.plist */,
 				08962F522418E064007B13CA /* iShaop2020.xcdatamodeld */,
 				08962F602418EF4A007B13CA /* CoreDataManager.swift */,
+				08962F6824193E21007B13CA /* FiltersViewController.swift */,
 			);
 			path = iShaop2020;
 			sourceTree = "<group>";
@@ -148,6 +151,7 @@
 				08962F4A2418E064007B13CA /* AppDelegate.swift in Sources */,
 				08962F4C2418E064007B13CA /* SceneDelegate.swift in Sources */,
 				08962F612418EF4A007B13CA /* CoreDataManager.swift in Sources */,
+				08962F6924193E21007B13CA /* FiltersViewController.swift in Sources */,
 				08962F542418E064007B13CA /* iShaop2020.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
