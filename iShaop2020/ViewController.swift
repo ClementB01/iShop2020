@@ -24,7 +24,7 @@ class ViewController: UIViewController {
         case ascending
         case descending
     }
-    var state = SortState.ascending
+    var state = SortState.descending
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,9 +40,11 @@ class ViewController: UIViewController {
         case SortState.ascending:
             loadTableView(ascending: false)
         case SortState.descending:
-             loadTableView()
+            loadTableView()
         }
     }
+    
+    
     
     // MARK: Functions
     
@@ -64,6 +66,12 @@ class ViewController: UIViewController {
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        let item = items[indexPath.row]
+        
+        item.isFavorite = !item.isFavorite
+        
+        tableView.reloadRows(at: [indexPath], with: UITableView.RowAnimation.none)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -77,6 +85,25 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.textLabel?.text = item.name
         
+        if(item.isFavorite) {
+            cell.accessoryType = UITableViewCell.AccessoryType.checkmark
+        } else {
+            cell.accessoryType = UITableViewCell.AccessoryType.none
+        }
+        
         return cell
+    }
+
+}
+
+extension ViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        if let items = dataManager.loadItemsWithFilter(searchBar.text!) {
+            self.items = items
+            
+            tableView.reloadData()
+        }
+        
     }
 }
