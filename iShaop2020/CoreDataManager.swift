@@ -22,12 +22,19 @@ class CoreDataManager {
     }
     
     // MARK: - Items Manager
-    func loadItems(_ ascending: Bool = true) -> [Item]? {
+    func loadItems() -> [Item]? {
         let fetchRequest: NSFetchRequest<Item> =  Item.fetchRequest()
+        // [c] = case sensitivity
+        // [d] = accentiation case sensitivity
+        //let predicate = NSPredicate(format: "name contains[c] %@", "a")
+        //let predicate2 = NSPredicate(format: "name contains[c] %@", "o")
         
-        let sortDescriptor = NSSortDescriptor(key: "name", ascending: ascending)
+        // for only one predicate
+        // fetchRequest.predicate = predicate
         
-        fetchRequest.sortDescriptors = [sortDescriptor]
+        // for more than one predicate
+        //fetchRequest.predicate = NSCompoundPredicate(orPredicateWithSubpredicates: [predicate, predicate2])
+        
         do {
             return try context.fetch(fetchRequest)
         } catch {
@@ -35,6 +42,36 @@ class CoreDataManager {
         }
         
     }
+    
+    func loadItemsWithFilters(name: String = "", ascending: Bool = true, isFavorite: Bool = false) -> [Item]? {
+       let fetchRequest: NSFetchRequest<Item> =  Item.fetchRequest()
+        
+        let sortDescriptor = NSSortDescriptor(key: "name", ascending: ascending)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        
+        //Predicates
+        var predicates: [NSPredicate] = []
+        
+        if(name.count > 0){
+            let predicateName = NSPredicate(format: "name contains[c] %@", name)
+            predicates.append(predicateName)
+        }
+        
+        if(isFavorite != false) {
+            let predicateIsFavorite = NSPredicate(format: "isFavorite == %@", NSNumber(value: true))
+            predicates.append(predicateIsFavorite)
+        }
+        
+        // for more than one predicate
+        fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+       
+       do {
+           return try context.fetch(fetchRequest)
+       } catch {
+           return nil
+       }
+       
+   }
     
     func createItemWithName(_ name: String, price: Double) -> Item {
         let item = Item(context: context)
@@ -46,7 +83,7 @@ class CoreDataManager {
     
     func createRandomItems() {
         if let items = loadItems(), items.count == 0 {
-            let randomData = ["Paul", "Hugo", "Pierre-Alexendre","Clement"]
+            let randomData = ["Paul", "Hugo", "Pierre-Alexandre","Clement"]
             
             for name in randomData {
                 let _ = createItemWithName(name, price: 1.99)
