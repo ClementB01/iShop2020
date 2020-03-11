@@ -31,23 +31,10 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
         
          loadTableView()
-    }
-    
-    // MARK: Actions
-
-    @IBAction func sort(_ sender: Any) {
-        switch state {
-        case SortState.ascending:
-            loadTableView(ascending: false)
-        case SortState.descending:
-            loadTableView()
-        }
-    }
-    
-    
+    }   
     
     // MARK: Functions
-    
+
     func loadTableView(ascending: Bool = true) {
         if let items = dataManager.loadItemsWithFilters(ascending: ascending) {
             switch state {
@@ -61,6 +48,8 @@ class ViewController: UIViewController {
             tableView.reloadData()
         }
     }
+    
+    // MARK: Actions 
 }
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
