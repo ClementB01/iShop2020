@@ -22,14 +22,8 @@ class CoreDataManager {
     }
     
     // MARK: - Items Manager
-    func loadItems(_ ascending: Bool = true) -> [Item]? {
+    func loadItems() -> [Item]? {
         let fetchRequest: NSFetchRequest<Item> =  Item.fetchRequest()
-        
-        let sortDescriptor = NSSortDescriptor(key: "name", ascending: ascending)
-        
-        fetchRequest.sortDescriptors = [sortDescriptor]
-        
-        
         // [c] = case sensitivity
         // [d] = accentiation case sensitivity
         //let predicate = NSPredicate(format: "name contains[c] %@", "a")
@@ -38,7 +32,7 @@ class CoreDataManager {
         // for only one predicate
         // fetchRequest.predicate = predicate
         
-        // for more tahn one predicate
+        // for more than one predicate
         //fetchRequest.predicate = NSCompoundPredicate(orPredicateWithSubpredicates: [predicate, predicate2])
         
         do {
@@ -49,14 +43,27 @@ class CoreDataManager {
         
     }
     
-    func loadItemsWithFilter(_ filter: String) -> [Item]? {
+    func loadItemsWithFilters(name: String = "", ascending: Bool = true, isFavorite: Bool = false) -> [Item]? {
        let fetchRequest: NSFetchRequest<Item> =  Item.fetchRequest()
-       
-        if(filter.count > 0){
-            let predicate = NSPredicate(format: "name contains[c] %@", filter)
-            // for only one predicate
-            fetchRequest.predicate = predicate
+        
+        let sortDescriptor = NSSortDescriptor(key: "name", ascending: ascending)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        
+        //Predicates
+        var predicates: [NSPredicate] = []
+        
+        if(name.count > 0){
+            let predicateName = NSPredicate(format: "name contains[c] %@", name)
+            predicates.append(predicateName)
         }
+        
+        if(isFavorite != false) {
+            let predicateIsFavorite = NSPredicate(format: "isFavorite == %@", NSNumber(value: true))
+            predicates.append(predicateIsFavorite)
+        }
+        
+        // for more than one predicate
+        fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
        
        do {
            return try context.fetch(fetchRequest)
